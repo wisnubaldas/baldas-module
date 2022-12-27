@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+// sesuaikan dulu kontroller nya
+use App\Http\Controllers\{{ controller }};
+
+Route::controller({{ controller }}::class)->group(function () {
+    Route::get('{{ class }}', 'index');
+    Route::get('{{ class }}/{id}', 'show');
+});
