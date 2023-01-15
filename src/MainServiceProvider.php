@@ -10,11 +10,15 @@ class MainServiceProvider extends ServiceProvider
 {
     public function __construct() {
         $this->helper = new MyHelper;
+        parent::__construct(app());
     }
     public function boot()
     {
         $web = $this->helper->route_path('custom-route');
         $this->loadRoutesFrom($web);
+        $auth_route = $this->helper->route_path('auth');
+        $this->loadRoutesFrom($auth_route);
+
         if (App::runningInConsole()) {
             $this->commands([
                 console\MakeRoute::class,
@@ -33,16 +37,16 @@ class MainServiceProvider extends ServiceProvider
         );
     }
 
-    protected function mergeConfigFrom($path, $key)
-    {
-        if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
-            $config = app()->make('config');
+    // protected function mergeConfigFrom($path, $key)
+    // {
+    //     if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
+    //         $config = app()->make('config');
 
-            $config->set($key, array_merge(
-                require $path, $config->get($key, [])
-            ));
-        }
-    }
+    //         $config->set($key, array_merge(
+    //             require $path, $config->get($key, [])
+    //         ));
+    //     }
+    // }
 
     // protected function publishConfig() {
     //     $this->publishes([
