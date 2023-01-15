@@ -14,10 +14,14 @@ class MainServiceProvider extends ServiceProvider
     }
     public function boot()
     {
+        // loading routing di package
         $web = $this->helper->route_path('custom-route');
         $this->loadRoutesFrom($web);
         $auth_route = $this->helper->route_path('auth');
         $this->loadRoutesFrom($auth_route);
+        
+        // loading view nya
+        $this->loadViewsFrom($this->helper->view_path('auth'), 'auth');
 
         if (App::runningInConsole()) {
             $this->commands([
@@ -29,9 +33,9 @@ class MainServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $multiple_connect = rtrim(dirname(__DIR__).DIRECTORY_SEPARATOR.
-                    'src'.DIRECTORY_SEPARATOR.
-                    'config'.DIRECTORY_SEPARATOR.'multiple-connect.php', '/\\');
+
+        // multiple database connection
+        $multiple_connect = $this->helper->multiple_database();
         $this->mergeConfigFrom(
             $multiple_connect,'database.connections'
         );

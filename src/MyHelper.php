@@ -33,4 +33,26 @@ class MyHelper
                     'routes'.DIRECTORY_SEPARATOR.
                     $file.'.php', '/\\');
     }
+    public function controller_path($file)
+    {
+        return rtrim(dirname(__DIR__).DIRECTORY_SEPARATOR.
+            'src'.DIRECTORY_SEPARATOR.
+            'app'.DIRECTORY_SEPARATOR.
+            'Controller'.DIRECTORY_SEPARATOR.
+            $file.'.php', '/\\');
+    }
+    public function view_path($path_name)
+    {
+     return rtrim(dirname(__DIR__).DIRECTORY_SEPARATOR.
+            'src'.DIRECTORY_SEPARATOR.
+            'App'.DIRECTORY_SEPARATOR.
+            'View'.DIRECTORY_SEPARATOR.
+            $path_name, '/\\');   
+    }
+    public function multiple_database()
+    {
+        return rtrim(dirname(__DIR__).DIRECTORY_SEPARATOR.
+                    'src'.DIRECTORY_SEPARATOR.
+                    'config'.DIRECTORY_SEPARATOR.'multiple-connect.php', '/\\');
+    }
 }
