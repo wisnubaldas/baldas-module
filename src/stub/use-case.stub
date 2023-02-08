@@ -1,0 +1,19 @@
+<?php
+
+namespace App\UseCase;
+
+
+/**
+ * Class UseCase.
+ *
+ * @package namespace App\UseCase;
+ */
+class {{ className }}UseCase implements {{ className }}UseCaseInterface
+{
+
+    public function what_is()
+    {
+
+    }
+    
+}

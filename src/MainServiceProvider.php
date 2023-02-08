@@ -26,7 +26,7 @@ class MainServiceProvider extends ServiceProvider
         if (App::runningInConsole()) {
             $this->commands([
                 console\MakeRoute::class,
-                
+                console\MakeUseCase::class,
             ]);
         }
     }
