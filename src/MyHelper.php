@@ -40,6 +40,36 @@ class MyHelper
                     'stub'.DIRECTORY_SEPARATOR.
                     $name.'.stub', '/\\');
     }
+
+    // binding class ke repository provider
+    public function _bind($file,$useCase,$interface)
+    {
+        $t = <<<EOT
+            \$this->app->bind($useCase,$interface);
+                    //:end-bindings:
+            EOT;
+        $contents = file_get_contents($file);
+        $contents = str_replace("//:end-bindings:", $t, $contents);
+        file_put_contents($file,$contents);
+    }
+    // file repository service profider untuk di load 
+    public function file_repository_provider()
+    {
+        $file = rtrim(dirname(__DIR__,4), '/\\') . 
+                    DIRECTORY_SEPARATOR .'app'.
+                    DIRECTORY_SEPARATOR.'Providers'.
+                    DIRECTORY_SEPARATOR.'RepositoryServiceProvider.php';
+        if(!$this->cek_file_exists($file)){
+            return $file;
+        }
+        return false;
+    }
+    // domain path
+    public function domain_path(string $file = '')
+    {
+        return rtrim(dirname(__DIR__,4), '/\\') . 
+        DIRECTORY_SEPARATOR . 'app'.DIRECTORY_SEPARATOR.'Domain'.DIRECTORY_SEPARATOR.$file;
+    }
     public function use_case_path(string $file = '')
     {
         return rtrim(dirname(__DIR__,4), '/\\') . 

@@ -27,6 +27,7 @@ class MainServiceProvider extends ServiceProvider
             $this->commands([
                 console\MakeRoute::class,
                 console\MakeUseCase::class,
+                console\MakeDomain::class,
             ]);
         }
     }

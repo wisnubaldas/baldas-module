@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Domain;
+
+
+/**
+ * Interface ImpInvoiceheaderRepository.
+ *
+ * @package namespace App\Domain;
+ */
+interface {{ className }}DomainInterface
+{
+    //
+}

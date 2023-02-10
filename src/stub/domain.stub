@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Domain;
+
+
+/**
+ * Class Domain.
+ *
+ * @package namespace App\Domain;
+ */
+class {{ className }}Domain implements {{ className }}DomainInterface
+{
+
+    public function what_is()
+    {
+
+    }
+    
+}
