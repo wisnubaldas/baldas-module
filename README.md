@@ -3,7 +3,20 @@
 
 Pakage ini buat nambahin kalo mau pake pakage nya repository, kalo sudah menggunakan pakage ini pembuatan laravel sudah menggunakan patern clean arsitektur. Tapi boleh juga bikin sembarangan terserah itumah.
 
-### credit
+### require system
+
+```json
+        "php": "^8.0.2",
+        "prettus/l5-repository":"^2.8",
+        "league/fractal": "^0.20.1",
+        "laravel/sanctum": "^3.1"
+```
+
+### Install
+
+```composer require wisnubaldas/baldas-module```
+
+
 
 [andersao/l5-repository](https://github.com/andersao/l5-repository)
 
