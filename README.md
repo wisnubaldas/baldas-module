@@ -1,5 +1,5 @@
 
-# Pakage Laravel
+# Pakage Laravel Clean Class Patern
 
 Pakage ini buat nambahin kalo mau pake pakage nya repository, kalo sudah menggunakan pakage ini pembuatan laravel sudah menggunakan patern clean arsitektur. Tapi boleh juga bikin sembarangan terserah itumah.
 
