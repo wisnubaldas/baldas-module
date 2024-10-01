@@ -50,7 +50,7 @@ class RouteConsoleClass
             case 'api':
                 $stub = $this->helper->load_stub('route-api');
                 $contents = $this->parsing_stub($stub, [
-                    'class'      => Str::kebab($name),
+                    'class'      => $name,
                     'controller' => \ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 
@@ -67,7 +67,7 @@ class RouteConsoleClass
 
                 $stub = $this->helper->load_stub('route');
                 $contents = $this->parsing_stub($stub, [
-                    'class'      => Str::kebab($name),
+                    'class'      => $name,
                     'controller' => \ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 

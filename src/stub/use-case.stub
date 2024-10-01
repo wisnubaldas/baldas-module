@@ -11,9 +11,8 @@ namespace App\UseCase;
 class {{ className }}UseCase implements {{ className }}UseCaseInterface
 {
 
-    public function what_is()
-    {
-
+    public function __construct() {
+        
     }
     
 }
