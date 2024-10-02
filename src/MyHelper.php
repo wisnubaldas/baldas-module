@@ -50,6 +50,7 @@ class MyHelper
             EOT;
         $contents = file_get_contents($file);
         $contents = str_replace("//:end-bindings:", $t, $contents);
+
         file_put_contents($file,$contents);
     }
     // file repository service profider untuk di load 
@@ -59,10 +60,13 @@ class MyHelper
                     DIRECTORY_SEPARATOR .'app'.
                     DIRECTORY_SEPARATOR.'Providers'.
                     DIRECTORY_SEPARATOR.'RepositoryServiceProvider.php';
-        if(!$this->cek_file_exists($file)){
-            return $file;
+
+        if($this->cek_file_exists($file)){
+            // ngga ada file
+            $content = file_get_contents(dirname(__DIR__).DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'RepositoryServiceProvider.php');
+            file_put_contents($file,$content);
         }
-        return false;
+        return $file;
     }
     // domain path
     public function domain_path(string $file = '')
