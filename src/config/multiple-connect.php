@@ -4,7 +4,7 @@ if($jml){
     for ($i=0; $i < (integer)$jml; $i++) { 
         if(env('DB_CONN_'.$i))
             $conn[env('DB_CONN_'.$i)] = [
-                        'driver' => 'mysql',
+                        'driver' => env('DB_DRIVER_'.$i,'mysql'),
                         'url' => env('DATABASE_URL'),
                         'read' => [
                             'host' => [

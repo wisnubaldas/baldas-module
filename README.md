@@ -59,6 +59,7 @@ DB_DATABASE=ctos_api_v2
 DB_USERNAME=root
 DB_PASSWORD=
 
+DB_DRIVER_1=mysql
 DB_CONN_1=rdwarehouse_jkt
 DB_HOST_W_1=127.0.0.1
 DB_HOST_R_1=127.0.0.1
