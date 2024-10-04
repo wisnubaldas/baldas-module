@@ -12,15 +12,20 @@ class RouteConsoleClass
         $this->helper = new MyHelper;
     }
 
-    public function cek_option($option, $name)
+    public function cek_option($option, $name,$choice)
     {
         $result = [];
         // opt 1 controller
         if ($option[0]) {
+            if ($choice == 'api') {
+                $nameController = 'api/'.\ucfirst(Str::camel($name)) . "Controller";
+            }else{
+                $nameController = \ucfirst(Str::camel($name)) . "Controller";
+            }
             \Artisan::call(
                 'make:controller',
                 [
-                    'name'       => \ucfirst($name) . "Controller",
+                    'name'       => $nameController,
                     '--resource' => true
                 ]
             );
@@ -29,7 +34,7 @@ class RouteConsoleClass
         if ($option[1]) {
             \Artisan::call(
                 'make:model',
-                array('name' => \ucfirst($name))
+                array('name' => \ucfirst(Str::camel($name)))
             );
             $result['model'] = Str::of(\Artisan::output())->trim();
         }
@@ -86,7 +91,7 @@ class RouteConsoleClass
         $result = [];
         $run = new RouteConsoleClass;
         if ($option) {
-            $opt = $run->cek_option($option, $name);
+            $opt = $run->cek_option($option, $name,$choice);
             $result = $opt;
         }
         $result['route'] = $run->make_route($name, $choice);
