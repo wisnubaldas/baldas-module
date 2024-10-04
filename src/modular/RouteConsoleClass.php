@@ -19,15 +19,14 @@ class RouteConsoleClass
         if ($option[0]) {
             if ($choice == 'api') {
                 $nameController = 'api/'.\ucfirst(Str::camel($name)) . "Controller";
+                $resourceParam = ['--api'=>true];
             }else{
                 $nameController = \ucfirst(Str::camel($name)) . "Controller";
+                $resourceParam = ['--resource' => true];
             }
             \Artisan::call(
                 'make:controller',
-                [
-                    'name'       => $nameController,
-                    '--resource' => true
-                ]
+                array_merge(['name' => $nameController],$resourceParam),
             );
             $result['controller'] = Str::of(\Artisan::output())->trim();
         }
