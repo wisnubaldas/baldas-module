@@ -12,21 +12,21 @@ class RouteConsoleClass
         $this->helper = new MyHelper;
     }
 
-    public function cek_option($option, $name,$choice)
+    public function cek_option($option, $name, $choice)
     {
         $result = [];
         // opt 1 controller
         if ($option[0]) {
             if ($choice == 'api') {
-                $nameController = 'api/'.\ucfirst(Str::camel($name)) . "Controller";
-                $resourceParam = ['--api'=>true];
-            }else{
+                $nameController = 'api/' . \ucfirst(Str::camel($name)) . "Controller";
+                $resourceParam = ['--api' => true];
+            } else {
                 $nameController = \ucfirst(Str::camel($name)) . "Controller";
                 $resourceParam = ['--resource' => true];
             }
             \Artisan::call(
                 'make:controller',
-                array_merge(['name' => $nameController],$resourceParam),
+                array_merge(['name' => $nameController], $resourceParam),
             );
             $result['controller'] = Str::of(\Artisan::output())->trim();
         }
@@ -53,23 +53,26 @@ class RouteConsoleClass
         switch ($choice) {
             case 'api':
                 $str = [];
-                if(str_contains($name,'/')){
-                    $str = array_reverse(explode('/',$name));
+                if (str_contains($name, '/')) {
+                    $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
-                $karakter = '\\,.@#$%^&*~+=_-)(":;{}[]|';
-                if (strpos($name, $karakter) !== false) {
-                    return  "ERROR Nama tidak boleh mengandung '$karakter'.";
+                $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\/';
+                // Membuat pola regex untuk mencocokkan karakter spesial
+                $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
+                // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
+                if (preg_match($pola, $name)) {
+                    return  "ERROR String mengandung karakter spesial.".$karakterSpesial;
                 }
                 unset($str[0]);
-                $str = implode('/',$str).'/';
+                $str = implode('/', $str) . '/';
                 $stub = $this->helper->load_stub('route-api');
                 $contents = $this->parsing_stub($stub, [
-                    'class'      => $name,
-                    'controller' => $str.\ucfirst(Str::camel($name)) . 'Controller'
+                    'class' => $name,
+                    'controller' => $str . \ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 
-                $file = $this->helper->route_api_path($str.Str::kebab($name) . '.php');
+                $file = $this->helper->route_api_path($str . Str::kebab($name) . '.php');
                 if ($this->helper->cek_file_exists($file)) {
                     \file_put_contents($file, $contents);
                     return "INFO Route " . $file . ' sukses di buat';
@@ -82,7 +85,7 @@ class RouteConsoleClass
 
                 $stub = $this->helper->load_stub('route');
                 $contents = $this->parsing_stub($stub, [
-                    'class'      => $name,
+                    'class' => $name,
                     'controller' => \ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 
@@ -101,7 +104,7 @@ class RouteConsoleClass
         $result = [];
         $run = new RouteConsoleClass;
         if ($option) {
-            $opt = $run->cek_option($option, $name,$choice);
+            $opt = $run->cek_option($option, $name, $choice);
             $result = $opt;
         }
         $result['route'] = $run->make_route($name, $choice);
