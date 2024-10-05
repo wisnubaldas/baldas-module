@@ -28,9 +28,10 @@ class MakeRoute extends Command
         $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
         // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
         if (preg_match($pola, $name)) {
-            return "ERROR String mengandung karakter spesial." . $karakterSpesial;
+            echo "ERROR String mengandung karakter spesial." . $karakterSpesial;
+            return 1;
         }
-        
+
         $choice = $this->choice(
             $this->choice_message,
             ['web', 'api'],
