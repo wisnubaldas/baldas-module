@@ -118,4 +118,19 @@ class MyHelper
                     'src'.DIRECTORY_SEPARATOR.
                     'config'.DIRECTORY_SEPARATOR.'multiple-connect.php', '/\\');
     }
+    public function forceFilePutContents ($filepath, $message){
+        try {
+            $isInFolder = preg_match("/^(.*)\/([^\/]+)$/", $filepath, $filepathMatches);
+            if($isInFolder) {
+                $folderName = $filepathMatches[1];
+                $fileName = $filepathMatches[2];
+                if (!is_dir($folderName)) {
+                    mkdir($folderName, 0777, true);
+                }
+            }
+            file_put_contents($filepath, $message);
+        } catch (Exception $e) {
+            echo "ERR: error writing '$message' to '$filepath', ". $e->getMessage();
+        }
+    }
 }
