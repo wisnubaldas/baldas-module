@@ -52,13 +52,24 @@ class RouteConsoleClass
     {
         switch ($choice) {
             case 'api':
+                $str = [];
+                if(str_contains($name,'/')){
+                    $str = array_reverse(explode('/',$name));
+                    $name = $str[0];
+                }
+                $karakter = '\\,.@#$%^&*~+=_-)(":;{}[]|';
+                if (strpos($name, $karakter) !== false) {
+                    return  "ERROR Nama tidak boleh mengandung '$karakter'.";
+                }
+                unset($str[0]);
+                $str = implode('/',$str).'/';
                 $stub = $this->helper->load_stub('route-api');
                 $contents = $this->parsing_stub($stub, [
                     'class'      => $name,
-                    'controller' => \ucfirst(Str::camel($name)) . 'Controller'
+                    'controller' => $str.\ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 
-                $file = $this->helper->route_api_path(Str::kebab($name) . '.php');
+                $file = $this->helper->route_api_path($str.Str::kebab($name) . '.php');
                 if ($this->helper->cek_file_exists($file)) {
                     \file_put_contents($file, $contents);
                     return "INFO Route " . $file . ' sukses di buat';
