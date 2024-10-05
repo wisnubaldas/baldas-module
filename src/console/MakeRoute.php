@@ -11,9 +11,10 @@ class MakeRoute extends Command
     protected $signature = 'make:route {name} {--C|controller} {--M|model}';
     protected $description;
 
-    public function __construct() {
-        $this->description = $this->teal('Bikin route terpisah',true);
-        $this->choice_message = $this->yellow('Pilih route yg mau di buat...? default',true);
+    public function __construct()
+    {
+        $this->description = $this->teal('Bikin route terpisah', true);
+        $this->choice_message = $this->yellow('Pilih route yg mau di buat...? default', true);
         // $this->helper = new MyHelper;
 
         parent::__construct();
@@ -22,7 +23,16 @@ class MakeRoute extends Command
     {
 
         $name = $this->argument('name');
-        $choice = $this->choice($this->choice_message,
+        $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\/';
+        // Membuat pola regex untuk mencocokkan karakter spesial
+        $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
+        // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
+        if (preg_match($pola, $name)) {
+            return "ERROR String mengandung karakter spesial." . $karakterSpesial;
+        }
+        
+        $choice = $this->choice(
+            $this->choice_message,
             ['web', 'api'],
             'web',
             $maxAttempts = null,
@@ -30,13 +40,13 @@ class MakeRoute extends Command
         );
 
         $message = RouteConsoleClass::run(
-                    $name,
-                    $choice,
-                    $controller = $this->option('controller'),
-                    $model = $this->option('model'),
-            );
+            $name,
+            $choice,
+            $controller = $this->option('controller'),
+            $model = $this->option('model'),
+        );
         foreach ($message as $v) {
-            $this->line($this->pink($v,true));
+            $this->line($this->pink($v, true));
         }
         return Command::SUCCESS;
     }

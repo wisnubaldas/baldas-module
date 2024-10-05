@@ -57,13 +57,7 @@ class RouteConsoleClass
                     $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
-                $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\/';
-                // Membuat pola regex untuk mencocokkan karakter spesial
-                $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
-                // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
-                if (preg_match($pola, $name)) {
-                    return  "ERROR String mengandung karakter spesial.".$karakterSpesial;
-                }
+                
                 unset($str[0]);
                 $str = implode('/', $str) . '/';
                 $stub = $this->helper->load_stub('route-api');
