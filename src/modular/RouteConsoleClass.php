@@ -57,13 +57,13 @@ class RouteConsoleClass
                     $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
-                
+                unset($str[0]);
                 $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
 
                 $stub = $this->helper->load_stub('route-api');
                 dump($str . \ucfirst(Str::camel($name)) . 'Controller');
 
-                
+
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
                     'controller' => $str . \ucfirst(Str::camel($name)) . 'Controller'
