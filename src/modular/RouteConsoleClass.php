@@ -57,9 +57,9 @@ class RouteConsoleClass
                     $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
-                
+                dump($name);
                 unset($str[0]);
-                $str = implode('/', $str) . '/';
+                $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
                 $stub = $this->helper->load_stub('route-api');
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
@@ -68,7 +68,7 @@ class RouteConsoleClass
 
                 $file = $this->helper->route_api_path($str . Str::kebab($name) . '.php');
                 dd($file);
-                
+
                 if ($this->helper->cek_file_exists($file)) {
                     \file_put_contents($file, $contents);
                     return "INFO Route " . $file . ' sukses di buat';
