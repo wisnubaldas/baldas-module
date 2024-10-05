@@ -67,6 +67,8 @@ class RouteConsoleClass
                 ]);
 
                 $file = $this->helper->route_api_path($str . Str::kebab($name) . '.php');
+                dd($file);
+                
                 if ($this->helper->cek_file_exists($file)) {
                     \file_put_contents($file, $contents);
                     return "INFO Route " . $file . ' sukses di buat';
