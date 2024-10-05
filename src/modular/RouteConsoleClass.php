@@ -61,12 +61,15 @@ class RouteConsoleClass
                 $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
 
                 $stub = $this->helper->load_stub('route-api');
+                dump($str . \ucfirst(Str::camel($name)) . 'Controller');
+
+                
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
                     'controller' => $str . \ucfirst(Str::camel($name)) . 'Controller'
                 ]);
 
-                $file = $this->helper->route_api_path($str . Str::kebab($name) . '.php');
+                $file = $this->helper->route_api_path(Str::kebab($name) . '.php');
 
                 if ($this->helper->cek_file_exists($file)) {
                     dd($file);
