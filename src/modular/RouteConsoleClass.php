@@ -52,12 +52,14 @@ class RouteConsoleClass
     {
         switch ($choice) {
             case 'api':
+                dump($name);
                 $str = [];
                 if (str_contains($name, '/')) {
                     $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
-                dump($name);
+                dump($str);
+
                 unset($str[0]);
                 $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
                 $stub = $this->helper->load_stub('route-api');
