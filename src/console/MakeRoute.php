@@ -23,7 +23,7 @@ class MakeRoute extends Command
     {
 
         $name = $this->argument('name');
-        $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\/';
+        $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\';
         // Membuat pola regex untuk mencocokkan karakter spesial
         $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
         // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
