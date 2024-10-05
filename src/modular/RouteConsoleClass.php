@@ -59,8 +59,11 @@ class RouteConsoleClass
                 }
                 dump($str);
                 dump($name);
-
+                unset($str[0]);
+                dump($str);
                 $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
+                dump($str);
+
                 $stub = $this->helper->load_stub('route-api');
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
