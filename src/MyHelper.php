@@ -149,6 +149,18 @@ class MyHelper
         $string = ucwords($string);
         return str_replace(' ', '', $string);
     }
+    protected function cek_karakter($name,$karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\') {
+        // $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\';
+        // Membuat pola regex untuk mencocokkan karakter spesial
+        $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
+        // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
+        if (preg_match($pola, $name)) {
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
     // public function toCamelCase($string) {
     //     // Replace hyphens with spaces
     //     $string = str_replace('-', ' ', $string);
