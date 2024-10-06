@@ -120,16 +120,20 @@ class MyHelper
     }
     public function forceFilePutContents ($filepath, $message){
         try {
-            $isInFolder = preg_match("/^(.*)\/([^\/]+)$/", $filepath, $filepathMatches);
-            if($isInFolder) {
-                $folderName = $filepathMatches[1];
-                $fileName = $filepathMatches[2];
-                if (!is_dir($folderName)) {
-                    mkdir($folderName, 0777, true);
-                }
+            // $filepath = "C:\laragon\www\ctos-api-v2\routes\api\cont\cloud-status.php";
+            $dir = array_reverse(explode("\\",$filepath));
+            $fileName = $dir[0];
+            unset($dir[0]);
+            $fullPath = implode("\\",array_reverse($dir));
+            
+            // example code
+            if (!is_dir($fullPath)) {
+              // dir doesn't exist, make it
+              mkdir($fullPath);
             }
-            file_put_contents($filepath, $message);
-        } catch (Exception $e) {
+            
+            file_put_contents($fullPath."\\".$fileName, $message);
+        } catch (\Exception $e) {
             echo "ERR: error writing '$message' to '$filepath', ". $e->getMessage();
         }
     }
