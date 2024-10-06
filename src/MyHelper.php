@@ -149,7 +149,7 @@ class MyHelper
         $string = ucwords($string);
         return str_replace(' ', '', $string);
     }
-    protected function cek_karakter($name,$karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\') {
+    public function cek_karakter($name,$karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\') {
         // $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\';
         // Membuat pola regex untuk mencocokkan karakter spesial
         $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
