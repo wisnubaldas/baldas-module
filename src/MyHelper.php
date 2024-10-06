@@ -134,7 +134,27 @@ class MyHelper
             
             file_put_contents($fullPath."\\".$fileName, $message);
         } catch (\Exception $e) {
-            echo "ERR: error writing '$message' to '$filepath', ". $e->getMessage();
+            echo "ERR: error writing to '$filepath', ". $e->getMessage();
         }
     }
+    public function bikin_path_nama($name) {
+        function toCamelCase($string) {
+            $string = str_replace('-', ' ', $string);
+            $string = ucwords($string);
+            return str_replace(' ', '', $string);
+        }
+        
+        $array = explode("/",$name);
+        $camelCaseArray = array_map('toCamelCase', $array);
+        return implode("/",$camelCaseArray);
+    }
+    // public function toCamelCase($string) {
+    //     // Replace hyphens with spaces
+    //     $string = str_replace('-', ' ', $string);
+    //     // Capitalize the first letter of each word
+    //     $string = ucwords($string);
+    //     // Remove spaces to form camel case
+    //     return str_replace(' ', '', $string);
+    // }
+    
 }
