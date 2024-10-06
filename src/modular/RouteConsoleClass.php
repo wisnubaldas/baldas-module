@@ -18,10 +18,10 @@ class RouteConsoleClass
         // opt 1 controller
         if ($option[0]) {
             if ($choice == 'api') {
-                $nameController = 'api/' . $this->bikin_path_nama($name) . "Controller";
+                $nameController = 'api/' . $this->helper->bikin_path_nama($name) . "Controller";
                 $resourceParam = ['--api' => true];
             } else {
-                $nameController = $this->bikin_path_nama($name) . "Controller";
+                $nameController = $this->helper->bikin_path_nama($name) . "Controller";
                 $resourceParam = ['--resource' => true];
             }
             \Artisan::call(
