@@ -138,15 +138,16 @@ class MyHelper
         }
     }
     public function bikin_path_nama($name) {
-        function toCamelCase($string) {
-            $string = str_replace('-', ' ', $string);
-            $string = ucwords($string);
-            return str_replace(' ', '', $string);
-        }
+        
         
         $array = explode("/",$name);
-        $camelCaseArray = array_map('toCamelCase', $array);
+        $camelCaseArray = array_map([$this, 'toCamelCase'], $array);
         return implode("/",$camelCaseArray);
+    }
+    protected function toCamelCase($string) {
+        $string = str_replace('-', ' ', $string);
+        $string = ucwords($string);
+        return str_replace(' ', '', $string);
     }
     // public function toCamelCase($string) {
     //     // Replace hyphens with spaces
