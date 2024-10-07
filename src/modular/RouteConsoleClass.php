@@ -47,38 +47,41 @@ class RouteConsoleClass
         }
         return $contents;
     }
+    protected function parsing_string($name){
+        $str = [];
+        if (str_contains($name, '/')) {
+            $str = array_reverse(explode('/', $name));
+            $name = $str[0];
+        }
+        unset($str[0]);
+        $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
+        $prefix = str_replace('\\','/',$str);
+        if($prefix == '/'){
+            $prefix = "";
+        }
+
+        if($str == "\\"){
+            $str = "";
+        }
+        
+        $controllerPath = $str . \ucfirst(Str::camel($name)) . 'Controller';
+        $controller = array_reverse(explode("\\",$controllerPath))[0];
+        return compact('controllerPath','controller','prefix','str');
+    }
     public function make_route($name, $choice)
     {
         switch ($choice) {
             case 'api':
-                $str = [];
-                if (str_contains($name, '/')) {
-                    $str = array_reverse(explode('/', $name));
-                    $name = $str[0];
-                }
-
-                unset($str[0]);
-                $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
-                $prefix = str_replace('\\','/',$str);
-                if($prefix == '/'){
-                    $prefix = "";
-                }
-
-                if($str == "\\"){
-                    $str = "";
-                }
-                
-                $controllerPath = $str . \ucfirst(Str::camel($name)) . 'Controller';
-                $controller = array_reverse(explode("\\",$controllerPath))[0];
+                $strStub = $this->parsing_string($name);
                 $stub = $this->helper->load_stub('route-api');                
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
-                    'controllerPath' => $controllerPath,
-                    'controller'=>$controller,
-                    'prefix'=>'/'.$prefix
+                    'controllerPath' => $strStub['controllerPath'],
+                    'controller'=>$strStub['controller'],
+                    'prefix'=>'/'.$strStub['prefix']
                 ]);
 
-                $file = $this->helper->route_api_path($str.Str::kebab($name) . '.php');
+                $file = $this->helper->route_api_path($strStub['str'].Str::kebab($name) . '.php');
 
                 if ($this->helper->cek_file_exists($file)) {
                     if($this->helper->cek_karakter($name,'/')){
@@ -95,14 +98,22 @@ class RouteConsoleClass
             default:
 
                 $stub = $this->helper->load_stub('route');
+                $strStub = $this->parsing_string($name);
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
-                    'controller' => \ucfirst(Str::camel($name)) . 'Controller'
+                    'controllerPath' => $strStub['controllerPath'],
+                    'controller'=>$strStub['controller'],
+                    'prefix'=>'/'.$strStub['prefix']
                 ]);
 
-                $file = $this->helper->route_web_path(Str::kebab($name) . '.php');
+                $file = $this->helper->route_web_path($strStub['str'].Str::kebab($name) . '.php');
+
                 if ($this->helper->cek_file_exists($file)) {
-                    \file_put_contents($file, $contents);
+                    if($this->helper->cek_karakter($name,'/')){
+                        \file_put_contents($file, $contents);
+                    }else{
+                        $this->helper->forceFilePutContents($file,$contents);
+                    }
                     return "INFO Route " . $file . ' sukses di buat';
                 } else {
                     return "ERROR Route file sudah pernah dibuat";

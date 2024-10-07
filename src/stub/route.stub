@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 // sesuaikan dulu kontroller nya
-use App\Http\Controllers\{{ controller }};
+use App\Http\Controllers\{{ controllerPath }};
 
-Route::group(['prefix' => '{{ class }}',  'middleware' => ['web']], function()
+Route::group(['prefix' => '{{ prefix }}',  'middleware' => ['web']], function()
 {
-    Route::get('/', [{{ controller }}::class, 'index']);
+    Route::get('{{ class }}', [{{ controller }}::class, 'index']);
 });
