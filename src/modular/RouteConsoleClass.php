@@ -75,13 +75,13 @@ class RouteConsoleClass
                 $strStub = $this->parsing_string($name);
                 $stub = $this->helper->load_stub('route-api');                
                 $contents = $this->parsing_stub($stub, [
-                    'class' => $name,
+                    'class' => Str::kebab(array_reverse(explode('/',$name))[0]),
                     'controllerPath' => $strStub['controllerPath'],
                     'controller'=>$strStub['controller'],
                     'prefix'=>'/'.$strStub['prefix']
                 ]);
 
-                $file = $this->helper->route_api_path($strStub['str'].Str::kebab($name) . '.php');
+                $file = $this->helper->route_api_path(Str::kebab(str_replace('/','\\',$name)) . '.php');
 
                 if ($this->helper->cek_file_exists($file)) {
                     if($this->helper->cek_karakter($name,'/')){
@@ -100,13 +100,13 @@ class RouteConsoleClass
                 $stub = $this->helper->load_stub('route');
                 $strStub = $this->parsing_string($name);
                 $contents = $this->parsing_stub($stub, [
-                    'class' => $name,
+                    'class' => Str::kebab(array_reverse(explode('/',$name))[0]),
                     'controllerPath' => $strStub['controllerPath'],
                     'controller'=>$strStub['controller'],
                     'prefix'=>'/'.$strStub['prefix']
                 ]);
 
-                $file = $this->helper->route_web_path($strStub['str'].Str::kebab($name) . '.php');
+                $file = $this->helper->route_web_path(Str::kebab(str_replace('/','\\',$name)) . '.php');
 
                 if ($this->helper->cek_file_exists($file)) {
                     if($this->helper->cek_karakter($name,'/')){
