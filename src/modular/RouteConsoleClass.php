@@ -45,7 +45,6 @@ class RouteConsoleClass
         foreach ($stubVariables as $search => $replace) {
             $contents = str_replace('{{ ' . $search . ' }}', $replace, $contents);
         }
-
         return $contents;
     }
     public function make_route($name, $choice)
@@ -57,14 +56,26 @@ class RouteConsoleClass
                     $str = array_reverse(explode('/', $name));
                     $name = $str[0];
                 }
+
                 unset($str[0]);
                 $str = implode(DIRECTORY_SEPARATOR, $str) . DIRECTORY_SEPARATOR;
+                $prefix = str_replace('\\','/',$str);
+                if($prefix == '/'){
+                    $prefix = "";
+                }
 
-                $stub = $this->helper->load_stub('route-api');
-
+                if($str == "\\"){
+                    $str = "";
+                }
+                
+                $controllerPath = $str . \ucfirst(Str::camel($name)) . 'Controller';
+                $controller = array_reverse(explode("\\",$controllerPath))[0];
+                $stub = $this->helper->load_stub('route-api');                
                 $contents = $this->parsing_stub($stub, [
                     'class' => $name,
-                    'controller' => $str . \ucfirst(Str::camel($name)) . 'Controller'
+                    'controllerPath' => $controllerPath,
+                    'controller'=>$controller,
+                    'prefix'=>'/'.$prefix
                 ]);
 
                 $file = $this->helper->route_api_path($str.Str::kebab($name) . '.php');

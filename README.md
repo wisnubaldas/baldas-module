@@ -87,3 +87,5 @@ DB_PASS_3=
 ```
 
 koneksi mendukung failover
+
+### minimum stability ```composer require --dev wisnubaldas/baldas-module:dev-master```

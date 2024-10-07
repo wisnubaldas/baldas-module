@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 // sesuaikan controller nya
-use App\Http\Controllers\api\{{ controller }};
+use App\Http\Controllers\api\{{ controllerPath }};
 
-Route::prefix('api')->group(function () {
+Route::prefix('api{{ prefix }}')->group(function () {
     Route::apiResource('{{ class }}', {{ controller }}::class);
 })->middleware('api');

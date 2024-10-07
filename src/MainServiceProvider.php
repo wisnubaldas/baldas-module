@@ -1,4 +1,5 @@
 <?php
+
 namespace Wisnubaldas\BaldasModule;
 
 use Illuminate\Support\Facades\App;
@@ -17,11 +18,6 @@ class MainServiceProvider extends ServiceProvider
         // loading routing di package
         $web = $this->helper->route_path('custom-route');
         $this->loadRoutesFrom($web);
-        $auth_route = $this->helper->route_path('auth');
-        $this->loadRoutesFrom($auth_route);
-        
-        // loading view nya
-        $this->loadViewsFrom($this->helper->view_path('auth'), 'auth');
 
         if (App::runningInConsole()) {
             $this->commands([
