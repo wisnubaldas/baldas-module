@@ -9,12 +9,14 @@ use Wisnubaldas\BaldasModule\config\MultipleConnect;
 
 class MainServiceProvider extends ServiceProvider
 {
+    protected $helper;
     public function __construct() {
         $this->helper = new MyHelper;
         parent::__construct(app());
     }
     public function boot()
     {
+        $this->app->bind(\Wisnubaldas\BaldasModule\modular\ApiCrudInterface::class, \Wisnubaldas\BaldasModule\modular\ApiCrudClass::class);
         // loading routing di package
         $web = $this->helper->route_path('custom-route');
         $this->loadRoutesFrom($web);
@@ -24,6 +26,7 @@ class MainServiceProvider extends ServiceProvider
                 console\MakeRoute::class,
                 console\MakeUseCase::class,
                 console\MakeDomain::class,
+                console\MakeApiCrud::class
             ]);
         }
     }

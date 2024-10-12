@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class RouteConsoleClass
 {
-    public function __construct(Type $var = null)
+    public function __construct()
     {
         $this->helper = new MyHelper;
     }

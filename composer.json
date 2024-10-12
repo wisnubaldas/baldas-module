@@ -1,32 +1,44 @@
 {
-    "name": "wisnubaldas/baldas-module",
-    "description": "Module laravel",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Wisnubaldas\\BaldasModule\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "wisnubaldas",
-            "email": "wisnubaldas@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^8.2",
-        "prettus/l5-repository": "^2.9"
-    },
-    "require-dev": {
-        "prettus/l5-repository": "^2.9"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Wisnubaldas\\BaldasModule\\MainServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+  "name": "wisnubaldas/baldas-module",
+  "description": "Module laravel",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Wisnubaldas\\BaldasModule\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "wisnubaldas",
+      "email": "wisnubaldas@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "prettus/l5-repository": "^2.9",
+    "brick/varexporter": "^0.5.0",
+    "codedredd/laravel-soap": "^3.0",
+    "ovac/idoc": "^1.7"
+  },
+  "require-dev": {
+    "prettus/l5-repository": "^2.9",
+    "brick/varexporter": "^0.5.0",
+    "codedredd/laravel-soap": "^3.0",
+    "ovac/idoc": "^1.7",
+    "bennett-treptow/laravel-migration-generator": "^4.4"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Wisnubaldas\\BaldasModule\\MainServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
 }
