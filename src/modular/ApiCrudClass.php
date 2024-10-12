@@ -38,11 +38,19 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
 
     public function show_table($conn)
     {
-        $db = \DB::connection($conn);
-        $tabels = $db->select('SHOW TABLES');
-        $tabels = collect($tabels)->transform(function ($item, $key) {
-            return array_values((array) $item)[0];
-        })->toArray();
+        switch ($conn) {
+            case 'sqlite':
+                $q = \DB::connection($conn)->select("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
+                $tabels = collect($q)->pluck('name')->toArray();
+                break;
+            default:
+                $db = \DB::connection($conn);
+                $tabels = $db->select('SHOW TABLES');
+                $tabels = collect($tabels)->transform(function ($item, $key) {
+                    return array_values((array) $item)[0];
+                })->toArray();
+                break;
+        }
 
         $tbl = select(
             label: 'Pilih table yang ingin digunakan :',
@@ -131,7 +139,7 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         );
         $stubModel = $this->stubFile('model');
         $str = $this->replace_content_stub($stubModel, $prop);
-        $fileModel = $this->save_file($str,$nsClsModel,$this->argName);
+        $fileModel = $this->save_file($str, $nsClsModel, $this->argName);
 
         // create request
         $nsClsRequest = $this->ns_cls($this->argName, 'App\Http\Requests');
@@ -146,13 +154,13 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         );
         $stubRequest = $this->stubFile('request');
         $content = $this->replace_content_stub($stubRequest, $prop);
-        $fileRequest = $this->save_file($content,$nsClsRequest,$this->argName . 'Request');
+        $fileRequest = $this->save_file($content, $nsClsRequest, $this->argName . 'Request');
         \Artisan::call(
             'make:repository',
             ['name' => $this->argName, '--skip-model' => true, '--skip-migration' => true]
         );
-        info("Sukses membuat ".$fileRequest);
-        info("Sukses membuat ".$fileModel);
-        info("Sukses membuat ".\Artisan::output());
+        info("Sukses membuat " . $fileRequest);
+        info("Sukses membuat " . $fileModel);
+        info("Sukses membuat " . \Artisan::output());
     }
 }
