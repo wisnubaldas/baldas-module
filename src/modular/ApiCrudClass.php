@@ -1,15 +1,26 @@
 <?php
+
 namespace Wisnubaldas\BaldasModule\modular;
-use function Laravel\Prompts\select;
+
 use function Laravel\Prompts\clear;
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\info;
 final class ApiCrudClass extends MainConsole implements ApiCrudInterface
 {
     public $allConn;
+
     public $argName;
+
     public string $selectConn;
+
     public string $selectTable;
-    
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function select_connection(): int|string
     {
         $koneksiDB = select(
@@ -21,8 +32,10 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         );
         clear();
         $this->selectConn = $koneksiDB;
+
         return $koneksiDB;
     }
+
     public function show_table($conn)
     {
         $db = \DB::connection($conn);
@@ -40,20 +53,24 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         );
         clear();
         $this->selectTable = $tbl;
+
         return $tbl;
     }
+
     public function confirm(...$status)
     {
         $confirmed = confirm(
-            label: 'Apakah ini sudah benar ? ' . implode(", ", $status),
+            label: 'Apakah ini sudah benar ? ' . implode(', ', $status),
             default: true,
             yes: 'I accept',
             no: 'I decline',
             hint: 'The terms must be accepted to continue.'
         );
         clear();
+
         return $confirmed;
     }
+
     public function create_crud()
     {
         $db = \DB::connection($this->selectConn);
@@ -78,39 +95,64 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
                     $max = false;
                     break;
                 default:
-                    $max = "max:" . preg_replace('/[^0-9]/', '', $v['type']);
+                    $max = 'max:' . preg_replace('/[^0-9]/', '', $v['type']);
                     break;
             }
             $x = [
                 $v['nullable'] ? 'nullable' : 'required',
                 $v['type_name'],
                 'min:1',
-                $max
+                $max,
             ];
             $x = array_filter($x);
             $rules[$v['name']] = $x;
         }
-        $this->makeAll($field, $kolom, $rules);
+        $this->makeAll($field, $rules);
     }
+
     /**
      * Bikin semuanya
-     * @param mixed $field
-     * @param mixed $kolom
-     * @param mixed $rules
+     *
+     * @param  mixed  $field
+     * @param  mixed  $rules
      * @return void
      */
-    protected function makeAll($field, $kolom, $rules)
+    protected function makeAll($field, $rules)
     {
-        $nsCls = $this->ns_cls($this->argName,'App\Models');
+        // create model
+        $nsClsModel = $this->ns_cls($this->argName, 'App\Models');
+        $prop = array_merge(
+            $nsClsModel,
+            ['connection' => $this->selectConn],
+            ['table' => $this->selectTable],
+            ['primaryKey' => $field[0]],
+            ['field' => $field],
+            ['rules' => $rules]
+        );
         $stubModel = $this->stubFile('model');
-        
-        // $str =  $this->replace_content_stub($stubModel);
-        // dump($str);
-        // \Artisan::call(
-        //     'make:model',
-        //     array('name' => $this->arg_name)
-        // );
+        $str = $this->replace_content_stub($stubModel, $prop);
+        $fileModel = $this->save_file($str,$nsClsModel,$this->argName);
+
+        // create request
+        $nsClsRequest = $this->ns_cls($this->argName, 'App\Http\Requests');
+        $prop = array_merge(
+            $nsClsRequest,
+            ['fileName' => $this->argName . 'Request'],
+            ['connection' => $this->selectConn],
+            ['table' => $this->selectTable],
+            ['primaryKey' => $field[0]],
+            ['field' => $field],
+            ['rules' => $rules]
+        );
+        $stubRequest = $this->stubFile('request');
+        $content = $this->replace_content_stub($stubRequest, $prop);
+        $fileRequest = $this->save_file($content,$nsClsRequest,$this->argName . 'Request');
+        \Artisan::call(
+            'make:repository',
+            ['name' => $this->argName, '--skip-model' => true, '--skip-migration' => true]
+        );
+        info("Sukses membuat ".$fileRequest);
+        info("Sukses membuat ".$fileModel);
+        info("Sukses membuat ".\Artisan::output());
     }
-    
-    
 }
