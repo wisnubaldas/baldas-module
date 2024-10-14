@@ -1,0 +1,85 @@
+<?php
+
+namespace {{namespace}};
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+//:use-space
+
+/**
+ * @group {{class}}
+ *
+ */
+
+class {{class}} extends Controller
+{
+    public function __construct() {
+        
+    }
+    
+    /**
+     * All {{class}} data
+     *
+     * @responseFile responses/{{class}}.json
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Create {{class}}
+     * 
+     * @authenticated
+     * @response {
+     *      "status": 200,
+     *      "success": true
+     * }
+     *
+     * @param  {{class}}Request  $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Show {{class}} data by id.
+     * 
+     * @pathParam id integer required
+     * The ID of the item to retrieve. Example: 10
+     * 
+     * @responseFile responses/{{class}}.json
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show {{class}} data by id.
+     * 
+     * @pathParam id integer required
+     * The ID of the item to retrieve. Example: 10
+     * 
+     * @authenticated
+     * @param  {{class}}Request  $request
+     * @responseFile responses/{{class}}.json
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * DELETE {{class}}
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

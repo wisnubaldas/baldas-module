@@ -6,6 +6,9 @@ use function Laravel\Prompts\clear;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\info;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+
 final class ApiCrudClass extends MainConsole implements ApiCrudInterface
 {
     public $allConn;
@@ -75,7 +78,6 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
             hint: 'The terms must be accepted to continue.'
         );
         clear();
-
         return $confirmed;
     }
 
@@ -140,11 +142,25 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         $stubModel = $this->stubFile('model');
         $str = $this->replace_content_stub($stubModel, $prop);
         $fileModel = $this->save_file($str, $nsClsModel, $this->argName);
+        
+        $confirmedController = confirm('Mau bikin Controller nya ?');
+        if($confirmedController){
+            $nsClsController = $this->ns_cls($this->argName, 'App\Http\Controllers');
+            $prop = array_merge(
+                $nsClsController,
+                ['fileName' => $this->argName . 'Controller'],
+                ['connection' => $this->selectConn],
+            );
+            $stubController = $this->stubFile('controller.api');
+            $content = $this->replace_content_stub($stubController, $prop);
+            $this->save_file($content, $nsClsController, $prop['fileName']);
+            $this->save_file_storage(json_encode( $rules,JSON_PRETTY_PRINT),'responses',$this->argName.'.json');
+        }
 
         $confirmedRequest = confirm('Mau bikin request nya ?');
         if ($confirmedRequest) {
             // create request
-            $nsClsRequest = $this->ns_cls($this->argName, 'App\Http\Requests');
+            $nsClsRequest = $this->ns_cls($this->argName.'Request', 'App\Http\Requests');
             $prop = array_merge(
                 $nsClsRequest,
                 ['fileName' => $this->argName . 'Request'],

@@ -33,12 +33,10 @@ class MakeApiCrud extends Command implements PromptsForMissingInput
         $this->crud->argName = $this->argument('name');
         $this->crud->validateName($this->crud->argName);
         $koneksi = $this->crud->select_connection();
-        $this->info($this->indigo('Koneksi DB : '.$this->red($koneksi, 'bold')));
         $table = $this->crud->show_table($koneksi);
         $ok = $this->crud->confirm($this->green('Koneksi :'.$koneksi), $this->yellow('Table :'.$table));
         if ($ok) {
             $this->crud->create_crud();
-            
         }
     }
 

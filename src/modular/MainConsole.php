@@ -98,4 +98,8 @@ class MainConsole
         $this->forceFilePutContents($dirCek, $modelFile, $content);
         return $dirCek.DIRECTORY_SEPARATOR.$modelFile;
     }
+    public function save_file_storage($content,$path,$fileName) {
+        $dirCek = $this->rootPath.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR.$path;
+        $this->forceFilePutContents($dirCek, $fileName, $content);
+    }
 }
