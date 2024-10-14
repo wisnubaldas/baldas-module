@@ -1,15 +1,52 @@
 
-# Pakage Laravel Clean Class Patern
+# Pakage Generate CRUD API Laravel
 
-Pakage ini buat nambahin kalo mau pake pakage nya repository, kalo sudah menggunakan pakage ini pembuatan laravel sudah menggunakan patern clean arsitektur. Tapi boleh juga bikin sembarangan terserah itumah.
+Pakage ini mempermudah pembuatan costum Model, Controller, Request, Repository. ini hanya bisa
+dijalankan ketika dalam pembuatan aplikasi sudah ada database nya, atau aplikasi yg akan dimigrasi menggunakan laravel, misalnya. 
+
+Ada beberapa tambahan perintah artisan jika menginstal package ini,
+
+```make:custom-model``` perintah ini akan membuat file custom model, api controller, request dan repository
+
+```make:domain``` perintah ini akan membuat file dalam folder domain, 
+
+```make:use-case``` perintah ini akan membuat file dalam folder usecase,
+
+```make:route``` perintah ini akan membuat file routing terpisah
+
+dengan begitu aplikasi dapat kita buat dengan memnentukan model arsitektur yang kita inginkan
+ditambah dengan package tambahan dari [andersao/l5-repository](https://github.com/andersao/l5-repository).
+
+Package ini juga sudah include dengan 
+
+[andersao/l5-repository](https://github.com/andersao/l5-repository) ini memungkinkan kita membuat reposirtory data model di laravel
+
+[brick/varexporter](https://github.com/brick/varexporter) It is particularly useful to store data that can be cached by OPCache, just like your source code, and later retrieved very fast, much faster than unserializing data using unserialize() or json_decode().
+
+[codedredd/laravel-soap](https://github.com/CodeDredd/laravel-soap) This package provides an expressive, minimal API around the Soap Client from Phpro, allowing you to quickly make outgoing SOAP requests to communicate with other web applications.
+
+[ovac/idoc](https://github.com/ovac/idoc) Automatically generate an interactive API documentation from your existing Laravel routes. Take a look at the example documentation. Inspired by Laravel Api Documentation Generator
+
+[bennett-treptow/laravel-migration-generator](https://github.com/bennett-treptow/laravel-migration-generator) Generate migrations from existing database structures, an alternative to the schema dump provided by Laravel. A primary use case for this package would be a project that has many migrations that alter tables using ->change() from doctrine/dbal that SQLite doesn't support and need a way to get table structures updated for SQLite to use in tests. Another use case would be taking a project with a database and no migrations and turning that database into base migrations.
 
 ### require system
 
 ```json
-        "php": "^8.0.2",
-        "prettus/l5-repository":"^2.8",
-        "league/fractal": "^0.20.1",
-        "laravel/sanctum": "^3.1"
+        "require": {
+                "php": "^8.2",
+                "prettus/l5-repository": "^2.9",
+                "brick/varexporter": "^0.5.0",
+                "codedredd/laravel-soap": "^3.0",
+                "ovac/idoc": "^1.7"
+        },
+        "require-dev": {
+                "laravel/prompts": "^0.3.0",
+                "prettus/l5-repository": "^2.9",
+                "brick/varexporter": "^0.5.0",
+                "codedredd/laravel-soap": "^3.0",
+                "ovac/idoc": "^1.7",
+                "bennett-treptow/laravel-migration-generator": "^4.4"
+        },
 ```
 
 ### Install
@@ -17,33 +54,9 @@ Pakage ini buat nambahin kalo mau pake pakage nya repository, kalo sudah menggun
 ```composer require wisnubaldas/baldas-module```
 
 
-
-[andersao/l5-repository](https://github.com/andersao/l5-repository)
-
-[league/fractal](https://fractal.thephpleague.com/)
-
-### Command
-
-Create route file
-```bash
-php artisan make:route {name}
-``` 
-perintah ini akan menggenerate file route di folder ``` routes/web/ ```
-
-```bash
-php artisan make:use-case {name}
-```
-perintah ini akan membuat file usecase class pada folder ``` app/UseCase/```
-
-```bash
-php artisan make:domain {name}
-```
-
-perintah ini akan membuat file domain pada folder ``` app\Domain ```
-
 ### Membuat multiple koneksi di laravel
 
-Deklarasi berapa koneksi yang akan di buat 
+Tambahkan koneksi pada file .env 
 
 ```bash
 MULTIPLE_CONNECTION=4
