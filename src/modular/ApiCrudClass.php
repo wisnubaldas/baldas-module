@@ -141,26 +141,38 @@ final class ApiCrudClass extends MainConsole implements ApiCrudInterface
         $str = $this->replace_content_stub($stubModel, $prop);
         $fileModel = $this->save_file($str, $nsClsModel, $this->argName);
 
-        // create request
-        $nsClsRequest = $this->ns_cls($this->argName, 'App\Http\Requests');
-        $prop = array_merge(
-            $nsClsRequest,
-            ['fileName' => $this->argName . 'Request'],
-            ['connection' => $this->selectConn],
-            ['table' => $this->selectTable],
-            ['primaryKey' => $field[0]],
-            ['field' => $field],
-            ['rules' => $rules]
-        );
-        $stubRequest = $this->stubFile('request');
-        $content = $this->replace_content_stub($stubRequest, $prop);
-        $fileRequest = $this->save_file($content, $nsClsRequest, $this->argName . 'Request');
-        \Artisan::call(
-            'make:repository',
-            ['name' => $this->argName, '--skip-model' => true, '--skip-migration' => true]
-        );
-        info("Sukses membuat " . $fileRequest);
-        info("Sukses membuat " . $fileModel);
-        info("Sukses membuat " . \Artisan::output());
+        $confirmedRequest = confirm('Mau bikin request nya ?');
+        if ($confirmedRequest) {
+            // create request
+            $nsClsRequest = $this->ns_cls($this->argName, 'App\Http\Requests');
+            $prop = array_merge(
+                $nsClsRequest,
+                ['fileName' => $this->argName . 'Request'],
+                ['connection' => $this->selectConn],
+                ['table' => $this->selectTable],
+                ['primaryKey' => $field[0]],
+                ['field' => $field],
+                ['rules' => $rules]
+            );
+            $stubRequest = $this->stubFile('request');
+            $content = $this->replace_content_stub($stubRequest, $prop);
+            $fileRequest = $this->save_file($content, $nsClsRequest, $this->argName . 'Request');
+        }
+        $confirmedRepo = confirm('Mau bikin repository nya ?');
+        if ($confirmedRepo) {
+            \Artisan::call(
+                'make:repository',
+                ['name' => $this->argName, '--skip-model' => true, '--skip-migration' => true]
+            );
+            info("Sukses membuat " . \Artisan::output());
+            $confirmedBin = confirm('Mau bikin binding repository nya ?');
+            if ($confirmedBin) {
+                \Artisan::call(
+                    'make:bindings',
+                    ['name' => 'App\\Models\\' . $this->argName]
+                );
+                info("Sukses membuat " . \Artisan::output());
+            }
+        }
     }
 }

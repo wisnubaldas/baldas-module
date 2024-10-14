@@ -12,7 +12,7 @@ class MakeApiCrud extends Command implements PromptsForMissingInput
 {
     use ConsoleTrait;
 
-    protected $signature = 'make:api-crud {name}';
+    protected $signature = 'make:custom-model {name}';
 
     protected $description;
 
@@ -22,7 +22,7 @@ class MakeApiCrud extends Command implements PromptsForMissingInput
 
     public function __construct(ApiCrudClass $crud)
     {
-        $this->description = $this->teal('Jalanin ini bikin route,controller,model,request,repository,..etc. Udah terintegrasi sama API Doc nya juga', true);
+        $this->description = $this->teal('Jalanin ini bikin route,controller,model,request,repository,..etc.', true);
         parent::__construct();
         $crud->allConn = config('database.connections');
         $this->crud = $crud;
@@ -45,7 +45,7 @@ class MakeApiCrud extends Command implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
-            'name' => 'Nama api crud nya apa...???',
+            'name' => 'Nama Model nya apa...???',
         ];
     }
 }
