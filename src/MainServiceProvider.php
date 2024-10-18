@@ -17,7 +17,19 @@ class MainServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->bind(\Wisnubaldas\BaldasModule\modular\ApiCrudInterface::class, \Wisnubaldas\BaldasModule\modular\ApiCrudClass::class);
+        $this->app->bind(
+            \Wisnubaldas\BaldasModule\modular\ApiCrudInterface::class,
+            \Wisnubaldas\BaldasModule\modular\ApiCrudClass::class
+        );
+        $this->app->bind(
+            \Wisnubaldas\BaldasModule\modular\MakeMenuInterface::class,
+            \Wisnubaldas\BaldasModule\modular\MakeMenuClass::class
+        );
+        $this->app->bind(
+            \Wisnubaldas\BaldasModule\modular\UseCaseInterface::class,
+            \Wisnubaldas\BaldasModule\modular\UseCaseClass::class
+        );
+        
         // loading routing di package
         $web = $this->helper->route_path('custom-route');
         $this->loadRoutesFrom($web);
@@ -28,6 +40,7 @@ class MainServiceProvider extends ServiceProvider
                 console\MakeUseCase::class,
                 console\MakeDomain::class,
                 console\MakeApiCrud::class,
+                console\MakeMenu::class,
             ]);
         }
     }
@@ -38,7 +51,8 @@ class MainServiceProvider extends ServiceProvider
         // multiple database connection
         $multiple_connect = $this->helper->multiple_database();
         $this->mergeConfigFrom(
-            $multiple_connect, 'database.connections'
+            $multiple_connect,
+            'database.connections'
         );
     }
 

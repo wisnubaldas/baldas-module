@@ -1,14 +1,14 @@
 <?php
 
-namespace App\UseCase;
+namespace {{namespace}};
 
 
 /**
  * Class UseCase.
  *
- * @package namespace App\UseCase;
+ * @package namespace {{namespace}};
  */
-class {{ className }}UseCase implements {{ className }}UseCaseInterface
+class {{class}}UseCase implements {{class}}UseCaseInterface
 {
 
     public function __construct() {
