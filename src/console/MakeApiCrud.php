@@ -6,8 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Wisnubaldas\BaldasModule\modular\ApiCrudClass;
 
-// use Wisnubaldas\BaldasModule\modular\RouteConsoleClass;
-
 class MakeApiCrud extends Command implements PromptsForMissingInput
 {
     use ConsoleTrait;

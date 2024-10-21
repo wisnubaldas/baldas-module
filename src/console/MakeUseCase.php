@@ -5,7 +5,6 @@ namespace Wisnubaldas\BaldasModule\console;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Wisnubaldas\BaldasModule\modular\UseCaseClass;
-// use Wisnubaldas\BaldasModule\modular\RouteConsoleClass;
 class MakeUseCase extends Command implements PromptsForMissingInput
 {
     use ConsoleTrait;

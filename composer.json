@@ -31,7 +31,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Wisnubaldas\\BaldasModule\\MainServiceProvider"
+        "Wisnubaldas\\BaldasModule\\MainServiceProvider",
+        "Wisnubaldas\\BaldasModule\\BladeDirectivesServiceProvider"
       ]
     }
   },

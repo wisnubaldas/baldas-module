@@ -3,7 +3,6 @@
 namespace Wisnubaldas\BaldasModule\console;
 
 use Illuminate\Console\Command;
-// use Wisnubaldas\BaldasModule\MyHelper;
 use Wisnubaldas\BaldasModule\modular\RouteConsoleClass;
 
 class MakeRoute extends Command
@@ -13,7 +12,7 @@ class MakeRoute extends Command
     protected $signature = 'make:route {name} {--C|controller} {--M|model}';
 
     protected $description;
-
+    protected $choice_message;
     public function __construct()
     {
         $this->description = $this->teal('Bikin route terpisah', true);
@@ -29,10 +28,10 @@ class MakeRoute extends Command
         $name = $this->argument('name');
         $karakterSpesial = '!@#$%^&*()_+[]{}|;:,.<>?\\';
         // Membuat pola regex untuk mencocokkan karakter spesial
-        $pola = '/['.preg_quote($karakterSpesial, '/').']/';
+        $pola = '/[' . preg_quote($karakterSpesial, '/') . ']/';
         // Menggunakan preg_match untuk mengecek keberadaan karakter spesial
         if (preg_match($pola, $name)) {
-            $v = 'ERROR String mengandung karakter spesial.'.$karakterSpesial;
+            $v = 'ERROR String mengandung karakter spesial.' . $karakterSpesial;
             $this->line($this->red($v, true));
 
             return 1;
@@ -55,7 +54,5 @@ class MakeRoute extends Command
         foreach ($message as $v) {
             $this->line($this->pink($v, true));
         }
-
-        return Command::SUCCESS;
     }
 }
