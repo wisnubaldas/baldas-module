@@ -2,9 +2,10 @@
 
 namespace Wisnubaldas\BaldasModule\bladedirective;
 
-
+use Wisnubaldas\BaldasModule\modular\MainConsole;
 class Parser
 {
+    
     /**
      * Parse expression.
      *
@@ -27,5 +28,12 @@ class Parser
     public static function stripQuotes($expression)
     {
         return str_replace(["'", '"'], '', $expression);
+    }
+
+    public static function load_resource($expression,$fileName,$path) {
+        $fileSource = resource_path($expression);
+        $contentFile = file_get_contents($fileSource);
+        $jing = new MainConsole();
+        $jing->forceFilePutContents($path,$fileName,$contentFile);
     }
 }

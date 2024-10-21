@@ -4,7 +4,29 @@ use Wisnubaldas\BaldasModule\bladedirective\Parser;
 use Illuminate\Support\Str;
 
 return [
-
+    /**
+     * --------------------------------------------------------------
+     * load resource asset 
+     * -----------------------------------------
+     */
+    'jingset'=>function($expression){
+        $expression = Parser::stripQuotes($expression);
+        $fileName = array_reverse(explode('/',$expression))[0]; 
+        if(Str::contains($expression, ".css")){
+           Parser::load_resource($expression,$fileName,public_path('sat/css'));
+           $sat = <<<END
+            <link rel="stylesheet" href="/sat/css/{$fileName}">
+           END;
+           return $sat;
+        }
+        if(Str::contains($expression, ".js")){
+           Parser::load_resource($expression,$fileName,public_path('sat/js'));
+           $sat = <<<END
+            <script type="text/javascript"  src="/sat/js/{$fileName}"></script>
+           END;
+           return $sat;
+        }
+    },
     /*
     |---------------------------------------------------------------------
     | @istrue / @isfalse
